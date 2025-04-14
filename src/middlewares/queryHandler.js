@@ -51,7 +51,7 @@ module.exports = (req, res, next) => {
     Model,
     customFilter = {},
     populate = null,
-    newSort = {},
+    newSort = {}
   ) => {
     const finalSort = { ...sort, ...newSort };
     return await Model.find({ ...filter, ...search, ...customFilter })
@@ -88,7 +88,7 @@ module.exports = (req, res, next) => {
       details.pages.previous,
       details.pages.current,
       details.pages.next,
-      totalPages,
+      totalPages
     );
 
     details.pages.list = pagesList;

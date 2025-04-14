@@ -20,7 +20,9 @@ module.exports = {
       .sort({ createdAt: "desc" })
       .limit(4);
 
-    res.render("index", { categories, posts: data, recentPosts });
+    const details = await res.getModelListDetails(BlogPost);
+
+    res.render("index", { categories, posts: data, recentPosts, details }); //* Sirasiyla tanimlanan bu degiskenler render edilir.
   },
 
   create: async (req, res) => {
