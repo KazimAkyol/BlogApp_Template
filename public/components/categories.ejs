@@ -4,7 +4,10 @@
 
     {% if(categories.length > 0) { %} {% categories.forEach((category)=> { %}
 
-    <a class="nav-item nav-link link-body-emphasis" href="#">
+    <a
+      class="nav-item nav-link link-body-emphasis"
+      href="post?filter[blogCategoryId]={%= category._id %}"
+    >
       {%= category.name %}
     </a>
 
