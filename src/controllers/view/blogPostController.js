@@ -4,6 +4,7 @@
 ------------------------------------------------------- */
 
 const BlogPost = require("../../models/blogPostModel");
+const blogCategory = require("../../models/blogCategoryModel");
 
 // ------------------------------------------
 // BlogPost
@@ -12,7 +13,8 @@ const BlogPost = require("../../models/blogPostModel");
 module.exports = {
   list: async (req, res) => {
     const data = await res.getModelList(BlogPost, {}, "blogCategoryId");
-    res.render("index");
+    const categories = await blogCategory.find();
+    res.render("index", { categories: categories });
   },
 
   create: async (req, res) => {
