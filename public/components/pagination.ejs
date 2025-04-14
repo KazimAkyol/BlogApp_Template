@@ -1,7 +1,33 @@
+
 <!-- {% console.log(details); %} -->
 
 <nav class="blog-pagination" aria-label="Pagination">
-  <a class="btn btn-outline-primary rounded-pill" href="#">1</a>
-  <a class="btn btn-outline-secondary rounded-pill">2</a>
+
+    {% if(details.pages) { %}
+
+    <a class="btn btn-outline-primary rounded-pill {%=  details.pages.previous ? ""  : 'disabled' %}  " href="?page={%= details.pages.previous + pageUrl%}">&laquo</a>
+
+
+    {% for( i in details.pages.list) { %}
+    <a class="btn  rounded-pill   {%= details.pages.list[i]== details.pages.current ? 'btn-outline-primary' : 'btn-outline-secondary'%}  " href="?page={%= details.pages.list[i] + pageUrl%}">  {%= details.pages.list[i]  %}  </a>
+
+    {% } %}
+
+    {% if (details.pages.current>3) { %}
+    <span>...</span>
+    {% } %}
+
+    {% if (details.pages.current<details.pages.total-3) { %}
+
+    <span>...</span>
+
+    {% } %}
+
+    <a class="btn btn-outline-secondary rounded-pill {%=  details.pages.next ? ""  : 'disabled' %} " href="?page={%= details.pages.total + pageUrl%}">  {%= details.pages.total  %} </a>
+    <a class="btn btn-outline-primary rounded-pill  {%=  details.pages.next ? ""  : 'disabled' %}    " href="?page={%= details.pages.next%}">Next</a>
+   
+
+    {% }  %}
+
 </nav>
-<p class="text-end p-2 border-top">Total {%= details.totalRecords %} Records</p>
+<p class="text-end p-2 border-top">Total  {%= details.totalRecords  %}  Posts</p>

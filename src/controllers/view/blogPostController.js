@@ -5,6 +5,7 @@
 
 const BlogPost = require("../../models/blogPostModel");
 const BlogCategory = require("../../models/blogCategoryModel");
+const removeQueryParam = require("../../helpers/removeQueryParam");
 
 // ------------------------------------------
 // BlogPost
@@ -20,9 +21,26 @@ module.exports = {
       .sort({ createdAt: "desc" })
       .limit(4);
 
-    const details = await res.getModelListDetails(BlogPost);
+    const details = await res.getModelListDetails(BlogPost, {
+      published: true,
+    });
 
-    res.render("index", { categories, posts: data, recentPosts, details }); //* Sirasiyla tanimlanan bu degiskenler render edilir.
+    let pageUrl = "";
+    const queryUrl = req.originalUrl.split("?")[1];
+
+    if (queryUrl) {
+      pageUrl = removeQueryParam(queryUrl, "page");
+    }
+
+    pageUrl = pageUrl ? "&" + pageUrl : "";
+
+    res.render("index", {
+      categories,
+      posts: data,
+      recentPosts,
+      details,
+      pageUrl,
+    }); //* Sirasiyla tanimlanan bu degiskenler render edilir.
   },
 
   create: async (req, res) => {
