@@ -14,7 +14,7 @@ module.exports = {
   list: async (req, res) => {
     const data = await res.getModelList(BlogPost, {}, "blogCategoryId");
     const categories = await blogCategory.find();
-    res.render("index", { categories: categories });
+    res.render("index", { categories: categories, posts:data });
   },
 
   create: async (req, res) => {

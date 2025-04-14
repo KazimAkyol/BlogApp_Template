@@ -1,13 +1,15 @@
 <div class="nav-scroller py-1 mb-3 border-bottom">
   <nav class="nav nav-underline justify-content-between">
-    
     <!-- {% console.log(categories); %} DB'deki veriyi Terminal'de görüntüleyebilmek icin -->
 
-    {% categories.forEach((category)=> { %}
+    {% if(categories.length > 0) { %} {% categories.forEach((category)=> { %}
 
-    <a class="nav-item nav-link link-body-emphasis" href="#"> {%= category.name %} </a>
+    <a class="nav-item nav-link link-body-emphasis" href="#">
+      {%= category.name %}
+    </a>
 
-    {% } 
-    ) %}
+    {% }) %} {% } else { %}
+    <p>No Category Found</p>
+    {% } %}
   </nav>
 </div>
