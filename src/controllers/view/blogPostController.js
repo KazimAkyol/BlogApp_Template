@@ -11,13 +11,8 @@ const BlogPost = require("../../models/blogPostModel");
 
 module.exports = {
   list: async (req, res) => {
-    const data = await res.getModelList(BlogPost,{}, "blogCategoryId");
-    res.status(200).send({
-      error: false,
-      count: data.length,
-      details: await res.getModelListDetails(BlogPost),
-      result: data,
-    });
+    const data = await res.getModelList(BlogPost, {}, "blogCategoryId");
+    res.render("index");
   },
 
   create: async (req, res) => {
@@ -34,7 +29,7 @@ module.exports = {
     // req.params.postId
     // const data = await BlogPost.findById(req.params.postId)
     const data = await BlogPost.findOne({ _id: req.params.postId }).populate(
-      "blogCategoryId",
+      "blogCategoryId"
     ); // get Primary Data
 
     res.status(200).send({
@@ -48,7 +43,7 @@ module.exports = {
     const data = await BlogPost.updateOne(
       { _id: req.params.postId },
       req.body,
-      { runValidators: true },
+      { runValidators: true }
     );
 
     res.status(202).send({
