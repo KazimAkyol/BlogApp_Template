@@ -1,4 +1,6 @@
-{%- include('includes/header') %}
+<!-- {% console.log(post); %} DB'deki veriyi Terminal'de görüntüleyebilmek icin -->
+
+{%- include('components/header') %}
 </div>
 <!-- main start -->
 <main class="container">
@@ -7,13 +9,13 @@
             <p>
                 <a class="btn btn-sm btn-secondary" href="/">Go Home</a>
             </p>
-            <h1>Title</h1>
+            <h1> {%= post?.title  %} </h1>
             <form action="" method="POST">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th># 1</th>
+                            <th>{%= post?._id  %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,20 +33,20 @@
                         </tr>
                         <tr>
                             <td>Title</td>
-                            <td><input type="text" name="title" required class="form-control" value=""></td>
+                            <td><input type="text" name="title" required class="form-control" value="{%= post?.title  %}"></td>
                         </tr>
                         <tr>
                             <td>Content</td>
                             <td>
-                                <textarea name="content" class="form-control"></textarea>
+                                <textarea name="content" class="form-control"> {%= post?.content %} </textarea>
                             </td>
                         </tr>
                         <tr>
                             <td>Published</td>
                             <td>
                                 <select name="published" class="form-select">
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
+                                    <option value="0" {%= post?.published ? "" : "selected" %}> No  </option>
+                                    <option value="1" {%= post?.published ? "selected" : "" %}> Yes</option>
                                 </select>
                             </td>
                         </tr>
@@ -63,4 +65,4 @@
 </main>
 <!-- main end -->
 
-{%- include('includes/footer') %}
+{%- include('components/footer') %}

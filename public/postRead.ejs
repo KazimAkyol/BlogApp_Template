@@ -1,4 +1,4 @@
-<!-- {% console.log(post); %} -->
+<!-- {% console.log(post); %} DB'deki veriyi Terminal'de görüntüleyebilmek icin -->
 
 {%- include('components/header') %}
 </div>
@@ -8,12 +8,12 @@
         <div class="col-md-12 p-3">
             <!-- BlogPost Read -->
             <div class="admin-area text-end">
-                <a class="btn btn-sm btn-primary" href="/blog/post/{%= post._id  %}/update">Update</a>
+                <a class="btn btn-sm btn-primary" href="/blog/post/{%= post._id %}%}/update">Update</a>
                 <a class="btn btn-sm btn-danger" href="/blog/post/{%= post._id  %}/delete" onclick="return confirm('Are you sure?')">Delete</a>
                 Published: {%= post.published  %}
             </div>
             <article class="blog-post">
-                <a href="/post?filter[blogCategoryId]=:id"># CategoryName</a>
+                <a href="/post?filter[blogCategoryId]=:id"></a>
                 <h2 class="display-5 mb-1">
                     <a href="/post/:id" class="link-body-emphasis text-decoration-none">{%= post.blogCategoryId.name  %}</a>
                 </h2>

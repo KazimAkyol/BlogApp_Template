@@ -19,7 +19,7 @@ module.exports = {
 
     const recentPosts = await BlogPost.find()
       .sort({ createdAt: "desc" })
-      .limit(4);
+      .limit(3);
 
     const details = await res.getModelListDetails(BlogPost, {
       published: true,
@@ -65,18 +65,25 @@ module.exports = {
 
   update: async (req, res) => {
     // const data = await BlogPost.findByIdAndUpdate(req.params.postId, req.body, { new: true }) // return new-data
-    const data = await BlogPost.updateOne(
-      { _id: req.params.postId },
-      req.body,
-      { runValidators: true }
-    );
 
-    res.status(202).send({
-      error: false,
-      body: req.body,
-      result: data, // update infos
-      newData: await BlogPost.findOne({ _id: req.params.postId }),
-    });
+    if (req.method == "POST") {
+      const data = await BlogPost.updateOne(
+        { _id: req.params.postId },
+        req.body,
+        { runValidators: true }
+      );
+      res.redirect("/blog/post");
+    }
+
+    //* Get istegi atıldıgında bilgilerin formun icine gelebilmesi icin:
+    else {
+      const data = await BlogPost.findOne({ _id: req.params.postId }).populate(
+        "blogCategoryId"
+      ); //* get Primary Data
+      //* Select'deki categories gösterebilmek için bu bilgiyi de cekip postForm'a gönderiyoruz:
+      const categories = await BlogCategory.find();
+      res.render("postForm", { post: data, categories });
+    }
   },
 
   delete: async (req, res) => {
