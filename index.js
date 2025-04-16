@@ -52,6 +52,12 @@ require("./src/dbConnection");
 // Searching&Sorting&Pagination:
 app.use(require("./src/middlewares/queryHandler"));
 
+// EJS'de global alanda değişken saklama
+app.use((req, res, next) => {
+  res.locals.user = req.session?.user;
+  next();
+});
+
 // StaticFiles:
 app.use("/assets", express.static("./public/assets"));
 
@@ -72,5 +78,5 @@ app.use(require("./src/middlewares/errorHandler"));
 
 app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
 
-//require('./src/helpers/sync')()
+// require('./src/helpers/sync')()
 // require("./src/helpers/sync2")();
