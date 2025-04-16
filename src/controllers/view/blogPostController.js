@@ -6,7 +6,6 @@
 const BlogPost = require("../../models/blogPostModel");
 const BlogCategory = require("../../models/blogCategoryModel");
 const removeQueryParam = require("../../helpers/removeQueryParam");
-
 // ------------------------------------------
 // BlogPost
 // ------------------------------------------
@@ -14,7 +13,6 @@ const removeQueryParam = require("../../helpers/removeQueryParam");
 module.exports = {
   list: async (req, res) => {
     const data = await res.getModelList(BlogPost, {}, "blogCategoryId");
-
     const categories = await BlogCategory.find();
 
     const recentPosts = await BlogPost.find()
@@ -24,13 +22,16 @@ module.exports = {
     const details = await res.getModelListDetails(BlogPost, {
       published: true,
     });
-
     let pageUrl = "";
+    console.log(req.originalUrl);
     const queryUrl = req.originalUrl.split("?")[1];
+
+    console.log(queryUrl);
 
     if (queryUrl) {
       pageUrl = removeQueryParam(queryUrl, "page");
     }
+    console.log("pageUrl", pageUrl);
 
     pageUrl = pageUrl ? "&" + pageUrl : "";
 
@@ -40,17 +41,18 @@ module.exports = {
       recentPosts,
       details,
       pageUrl,
-    }); //* Sirasiyla tanimlanan bu degiskenler render edilir.
+    });
   },
 
   create: async (req, res) => {
-    const data = await BlogPost.create(req.body);
-
-    res.status(201).send({
-      error: false,
-      body: req.body,
-      result: data,
-    });
+    if (req.method == "POST") {
+      req.body.userId = req.session?.user.id;
+      const data = await BlogPost.create(req.body);
+      res.redirect("/blog/post");
+    } else {
+      const categories = await BlogCategory.find();
+      res.render("postForm", { post: null, categories });
+    }
   },
 
   read: async (req, res) => {
@@ -72,15 +74,16 @@ module.exports = {
         req.body,
         { runValidators: true }
       );
+
       res.redirect("/blog/post");
     }
 
-    //* Get istegi atıldıgında bilgilerin formun icine gelebilmesi icin:
+    // Get isteği atıldığında bilgilerin formun içine gelebilmesi için
     else {
       const data = await BlogPost.findOne({ _id: req.params.postId }).populate(
         "blogCategoryId"
-      ); //* get Primary Data
-      //* Select'deki categories gösterebilmek için bu bilgiyi de cekip postForm'a gönderiyoruz:
+      ); // get Primary Data
+      //Selectdeki kategorileri gösterebilmek için bu bilgiyide çekip postForma gönderiyoruz
       const categories = await BlogCategory.find();
       res.render("postForm", { post: data, categories });
     }

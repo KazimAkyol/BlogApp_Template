@@ -1,29 +1,37 @@
 
 {%- include("components/header") %}
 
+      
         <!-- Blog Categories -->
 
 {%- include("components/categories") %}
+
+
 
     </div>
     <!-- main start -->
     <main class="container">
         <div class="row g-5">
             <div class="col-md-8">
+
+
+                {%  if(user) {  %}
+
                 <div class="admin-area text-end">
                     <a class="btn btn-primary" href="/blog/post/create">New Post</a>
                 </div>
+
+
+                {% } %}
                 <h3 class="pb-4 fst-italic border-bottom">
                     Welcome to my blog site.
                 </h3>
-        <!-- BlogPosts -->
+                <!-- BlogPosts -->
                 
-        {%- include("components/posts") %}
+                {%- include("components/posts") %}
 
-        <!-- Pagination -->
-
-        {%- include("components/pagination") %}
-
+                <!-- Pagination -->
+                {%- include("components/pagination") %}
             </div>
          {%- include("components/recentPosts") %}
         </div>
